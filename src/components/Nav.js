@@ -10,12 +10,12 @@ const Navigation = () => {
     }
   }
   return (
-    <div class="topnav" id="myTopnav">
+    <div className="topnav" id="myTopnav">
       <Link to="/">Home</Link>
-      <Link to="/">Battle</Link>
+      <Link to="/battle">Battle</Link>
       <Link to="/explore">Popular Repo</Link>
-      <Link to="javascript:void(0);" class="icon" onClick={myFunction}>
-        <i class="fa fa-bars"></i>
+      <Link to="javascript:void(0);" className="icon" onClick={myFunction}>
+        <i className="fa fa-bars"></i>
       </Link>
     </div>
   );

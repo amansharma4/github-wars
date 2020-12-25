@@ -3,14 +3,17 @@ import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Repo from "./components/Repo";
+import Home from "./components/Home";
+import Battle from './components/Battle'
 function App() {
   return (
     <div className="App">
       <Router>
         <Nav />
+        <Route path="/" exact component={Home} />
+        <Route path="/battle" exact component={Battle} />
         <Route path="/explore" exact component={Repo} />
       </Router>
-      {/* <Repo /> */}
     </div>
   );
 }

@@ -97,3 +97,39 @@ body {
     text-align: left;
   }
 }
+.popular-navigation {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 25px auto;
+  padding-left: 0;
+}
+
+.popular-navigation li {
+  display: inline;
+  margin: 0 8px;
+  font-style: italic;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.clicked {
+  color: rgb(128, 83, 0) !important;
+}
+
+.box {
+  margin: auto;
+}
+
+.grid {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.grid > div {
+  flex-basis: calc(50% - 60px);
+}

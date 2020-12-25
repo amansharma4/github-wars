@@ -1,10 +1,25 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 const Repo = () => {
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [clicked, setClicked] = useState("All");
+
+  const language = ["All", "javascript", "react", "python", "golang"];
+
+  const handleClicked = (e) => {
+    // console.log(e.target.textContent);
+    setClicked(e.target.textContent);
+    fetchData(e.target.textContent);
+  };
+  const fetchData = (text) => {
+    setLoading(true);
+    getRepo(text)
+      .then(({ items }) => setRepositories(items))
+      .then(() => setLoading(false));
+  };
   //function
   const getRepo = (language) => {
     return new Promise((resolve, reject) => {
@@ -15,43 +30,57 @@ const Repo = () => {
         .then((data) => resolve(data));
     });
   };
+
   useEffect(() => {
-    getRepo("react")
-      .then(({ items }) => setRepositories(items))
-      .then(() => setLoading(false));
-  }, []);
+    fetchData(clicked);
+  }, [clicked]);
   return (
     <>
-      <h1>Explore</h1>
+      <h1 className="container">Explore</h1>
+      <ul className="popular-navigation">
+        {language.map((item, index) => {
+          return (
+            <li
+              title={item}
+              className={clicked === item ? "clicked" : ""}
+              key={index}
+              onClick={handleClicked}
+            >
+              {item}
+            </li>
+          );
+        })}
+      </ul>
       {loading ? (
         <Loader />
       ) : (
-        <Container>
-          <Row>
-            {repositories.map((item) => (
-              <Col lg={4} sm={10}>
-                <Card className="my-2">
-                  <Card.Img
-                    variant="top"
-                    src={item.owner.avatar_url}
-                    style={{ width: "10rem" }}
-                  />
-                  <Card.Body>
-                    <h1>{item.name}</h1>
-                    <p>
-                      <i class="lni lni-user"></i>
-                      {item.full_name}
-                    </p>
-                    <p>
-                      <i class="lni lni-star-filled"></i>
-                      {item.stargazers_count}
-                    </p>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
+        <div className="grid">
+          {repositories.map((item) => (
+            <Card style={{ width: "18rem" }} key={item.id} className="box">
+              <Card.Img
+                style={{
+                  borderRadius: "55%",
+                  width: "12rem",
+                  marginTop: "1.2rem",
+                }}
+                variant="top"
+                src={item.owner.avatar_url}
+              />
+              <Card.Body style={{ color: "black" }}>
+                <Card.Title>{item.name}</Card.Title>
+                <Card.Text>
+                  <i className="lni lni-user"></i>
+                  <span> </span>
+                  {item.full_name}
+                </Card.Text>
+                <Card.Text>
+                  <i className="lni lni-star-filled"></i>
+                  {item.stargazers_count}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
+        </div>
       )}
     </>
   );
