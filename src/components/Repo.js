@@ -64,6 +64,7 @@ const Repo = () => {
                   marginTop: "1.2rem",
                 }}
                 variant="top"
+                fluid
                 src={item.owner.avatar_url}
               />
               <Card.Body style={{ color: "black" }}>
