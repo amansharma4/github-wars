@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 import { Card } from "react-bootstrap";
+import { getRepos } from "./Api";
 
 const Repo = () => {
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [clicked, setClicked] = useState("All");
-
   const language = ["All", "javascript", "react", "python", "golang"];
-
   const handleClicked = (e) => {
-    // console.log(e.target.textContent);
     setClicked(e.target.textContent);
     fetchData(e.target.textContent);
   };
   const fetchData = (text) => {
     setLoading(true);
-    getRepo(text)
+    getRepos(text)
       .then(({ items }) => setRepositories(items))
       .then(() => setLoading(false));
-  };
-  //function
-  const getRepo = (language) => {
-    return new Promise((resolve, reject) => {
-      fetch(
-        `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
-      )
-        .then((res) => res.json())
-        .then((data) => resolve(data));
-    });
   };
 
   useEffect(() => {
@@ -38,15 +26,15 @@ const Repo = () => {
     <>
       <h1 className="container">Explore</h1>
       <ul className="popular-navigation">
-        {language.map((item, index) => {
+        {language.map((data, index) => {
           return (
             <li
-              title={item}
-              className={clicked === item ? "clicked" : ""}
+              title={data}
+              className={clicked === data ? "clicked" : ""}
               key={index}
               onClick={handleClicked}
             >
-              {item}
+              {data}
             </li>
           );
         })}
@@ -55,8 +43,8 @@ const Repo = () => {
         <Loader />
       ) : (
         <div className="grid">
-          {repositories.map((item) => (
-            <Card style={{ width: "18rem" }} key={item.id} className="box">
+          {repositories.map((data) => (
+            <Card style={{ width: "18rem" }} key={data.id} className="box">
               <Card.Img
                 style={{
                   borderRadius: "55%",
@@ -65,18 +53,18 @@ const Repo = () => {
                 }}
                 variant="top"
                 fluid
-                src={item.owner.avatar_url}
+                src={data.owner.avatar_url}
               />
               <Card.Body style={{ color: "black" }}>
-                <Card.Title>{item.name}</Card.Title>
+                <Card.Title>{data.name}</Card.Title>
                 <Card.Text>
                   <i className="lni lni-user"></i>
                   <span> </span>
-                  {item.full_name}
+                  {data.full_name}
                 </Card.Text>
                 <Card.Text>
                   <i className="lni lni-star-filled"></i>
-                  {item.stargazers_count}
+                  {data.stargazers_count}
                 </Card.Text>
               </Card.Body>
             </Card>

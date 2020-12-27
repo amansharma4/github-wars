@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Container, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { getUserData } from "./Api";
 
 const Battle = () => {
   const [playerOneSubmit, setPlayerOneSubmit] = useState(false);
@@ -9,30 +10,20 @@ const Battle = () => {
   const [playerTwo, setPlayerTwo] = useState("");
   const [playerOneData, setPlayerOneData] = useState({});
   const [playerTwoData, setPlayerTwoData] = useState({});
-  //function
-
-  const getData = (username) => {
-    return new Promise((resolve, reject) => {
-      fetch(`https://api.github.com/users/${username}`)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
-        .catch((err) => reject(err));
-    });
-  };
 
   const handleFirstSubmit = (e) => {
     e.preventDefault();
     setPlayerOneSubmit(true);
-    getData(playerOne).then((res) => setPlayerOneData(res));
+    getUserData(playerOne).then((res) => setPlayerOneData(res));
   };
 
   const handleSecondSubmit = (e) => {
     e.preventDefault();
     setPlayerTwoSubmit(true);
-    getData(playerTwo).then((res) => setPlayerTwoData(res));
+    getUserData(playerTwo).then((res) => setPlayerTwoData(res));
   };
+
   const handleReset = (e) => {
-    console.log(e.target.id);
     if (e.target.id === "player-one") {
       setPlayerOneSubmit(false);
       setPlayerOne("");
@@ -44,19 +35,20 @@ const Battle = () => {
 
   return (
     <Container>
-      <h1 className="grid">Battle</h1>
+      <h1 className="App">Battle</h1>
       <Row>
         {playerOneSubmit ? (
           <Col lg={6} sm={12} key={playerOneData.id}>
-            <Card className="my-3 box">
+            <Card className="my-3">
               <Card.Img
                 style={{
-                  borderRadius: "55%",
-                  width: "12rem",
+                  borderRadius: "50%",
+
+                  width: "14rem",
+                  margin: "auto",
                   marginTop: "1rem",
                 }}
                 variant="top"
-                fluid
                 src={playerOneData.avatar_url}
               />
               <Card.Body style={{ textAlign: "center", color: "white" }}>
@@ -73,7 +65,7 @@ const Battle = () => {
           </Col>
         ) : (
           <Col md={6} sm={12}>
-            <Form onSubmit={handleFirstSubmit}>
+            <Form onSubmit={handleFirstSubmit} className="button-battle">
               <Form.Control
                 type="text"
                 value={playerOne}
@@ -99,8 +91,10 @@ const Battle = () => {
             <Card className="my-3">
               <Card.Img
                 style={{
-                  borderRadius: "55%",
-                  width: "12rem",
+                  borderRadius: "50%",
+
+                  width: "14rem",
+                  margin: "auto",
                   marginTop: "1rem",
                 }}
                 variant="top"
@@ -152,7 +146,6 @@ const Battle = () => {
               },
             }}
           >
-            {" "}
             <Button>Battle</Button>
           </Link>
         )}

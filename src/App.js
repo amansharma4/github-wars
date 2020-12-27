@@ -14,7 +14,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/battle" exact component={Battle} />
         <Route path="/explore" exact component={Repo} />
-        <Route path="/result" exact component={Result} />
+        <Route path="/results" exact component={Result} />
       </Router>
     </div>
   );
